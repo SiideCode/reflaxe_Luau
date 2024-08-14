@@ -1,8 +1,8 @@
 {
-  "name": "roblaxe",
+  "name": "reflaxe.Luau",
   "version": "0.0.1",
   "description": "A custom reflaxe-based Luau target, built with Lune, Roblox, and standard Luau runtime in mind.",
-  "url": "http://example.com",
+  "url": "https://github.com/SiideCode/reflaxe.Luau",
   "tags": [],
   "dependencies": {
     "reflaxe": "git:https://github.com/SomeRanDev/reflaxe"
