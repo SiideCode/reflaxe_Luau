@@ -1,0 +1,4 @@
+-D luau
+-D Luau
+--macro nullSafety("luaucompiler")
+--macro luaucompiler.CompilerInit.Start()
