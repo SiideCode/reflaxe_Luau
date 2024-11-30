@@ -48,12 +48,10 @@ class Compiler extends DirectToStringCompiler {
 		ret += classType.name + " = " + "{}" + "\n\n";
 
 		for (i in varFields) {
-			// TODO: FUCKING MAKE AN ALTERNATIVE FOR COMPILECLASSVAREXPR CAUSE IT DOESN'T FUCKING WORK I HATE IT
+			// TODO: make a function to extract the constant from typedexpr
 			var l = i.field.expr();
 			if (l != null) {
 				trace('TypedExpr: ${l}');
-				trace(compileClassVarExpr(l));
-				trace(compileExpressionsIntoLines([l, l, l, l, l]));
 			}
 			if (i.isStatic) {
 				if (i.field.doc != null)
