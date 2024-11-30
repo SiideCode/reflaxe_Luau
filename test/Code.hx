@@ -26,7 +26,7 @@ class TestClass {
 
 	var field:TestEnum;
 
-	public function new() {
+	public function new(hello:Int, bye:String, my:Bool) {
 		trace("Create Code class!");
 		field = One;
 	}
@@ -47,7 +47,7 @@ class TestClass {
 function main() {
 	trace("Hello world!");
 
-	final c = new TestClass();
+	final c = new TestClass(3, "g", false);
 	for (i in 0...3) {
 		c.increment();
 	}

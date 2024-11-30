@@ -1,13 +1,54 @@
 package luaucompiler;
 
-import reflaxe.BaseCompiler.LambdaWrapType;
+import reflaxe.helpers.Context;
+import luaucompiler.utils.Utils;
 #if (macro || luau_runtime)
 import reflaxe.ReflectCompiler;
 
 final reservedNames = [
-	"if", "else", "elseif", "then", "end", "local", "nil", "repeat", "break", "until", "for", "in", "do", "true", "false", "and", "or", "not", "function",
-	"while", "assert", "error", "gcinfo", "getfenv", "getmetatable", "next", "newproxy", "print", "rawequal", "rawget", "rawset", "select", "setfenv",
-	"setmetatable", "tonumber", "tostring", "type", "typeof", "ipairs", "pairs", "pcall", "xpcall", "unpack"
+	"if",
+	"else",
+	"elseif",
+	"then",
+	"end",
+	"local",
+	"nil",
+	"repeat",
+	"break",
+	"until",
+	"for",
+	"in",
+	"do",
+	"true",
+	"false",
+	"and",
+	"or",
+	"not",
+	"function",
+	"while",
+	"assert",
+	"error",
+	"gcinfo",
+	"getfenv",
+	"getmetatable",
+	"next",
+	"newproxy",
+	"print",
+	"rawequal",
+	"rawget",
+	"rawset",
+	"select",
+	"setfenv",
+	"setmetatable",
+	"tonumber",
+	"tostring",
+	"type",
+	"typeof",
+	"ipairs",
+	"pairs",
+	"pcall",
+	"xpcall",
+	"unpack"
 ];
 
 class CompilerInit {
@@ -23,11 +64,12 @@ class CompilerInit {
 		#end
 
 		var compiler = new Compiler();
+		Utils.compilerRef = compiler;
 
 		ReflectCompiler.AddCompiler(compiler, {
-			fileOutputExtension: ".lua",
+			fileOutputExtension: Context.defined("output-as-luau") ? ".luau" : ".lua",
 			outputDirDefineName: "luau-output",
-			fileOutputType: FilePerModule,
+			fileOutputType: FilePerClass,
 			reservedVarNames: reservedNames,
 			targetCodeInjectionName: "__luau__",
 			smartDCE: true,
@@ -35,19 +77,16 @@ class CompilerInit {
 			// ignoreTypes: ["", ""],
 			// unwrapTypedefs: false,
 			// TODO: make it a define (ALLOW_SHADOWING)
-			// preventRepeatVars: true,
-			convertNullCoal: true,
-			convertUnopIncrement: true,
+			preventRepeatVars: true,
 			// wrapFunctionReferences: ExternOnly,
 			// wrapFunctionMetadata:
 			// [
 			//	":native",
 			//	":nativeFunctionCode"
 			// ],
-			// just to get rid of the stdlib junk
 			// dynamicDCE: true,
 			// trackClassHierarchy: true,
-			// ignoreBodylessFunctions: true,
+			// ignoreBodylessFunctions: false,
 			// allowMetaMetadata: false,
 			// ignoreNonPhysicalFields: false,
 			// metadataTemplates:

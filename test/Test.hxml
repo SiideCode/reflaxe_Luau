@@ -11,6 +11,7 @@
 
 # Set output folder for Luau
 -D luau-output=out
+-D ident-with=Spaces
 
 # Main function
 -main Code

@@ -1,19 +1,23 @@
 package luaucompiler.utils;
 
+import haxe.macro.Expr.Position;
+import reflaxe.helpers.Context;
 #if (macro || luau_runtime)
 import haxe.macro.Type;
 
 using StringTools;
 
 class Utils {
+	public static var compilerRef:Compiler;
+
 	static public function typeToString(t:Type) {
 		switch (t) {
 			case TMono(t):
 				var hhh = t.get();
 				if (hhh != null)
-					trace(typeToString(hhh));
-
-				return "unknown";
+					return typeToString(hhh);
+				else
+					return "any";
 			case TEnum(t, params):
 				trace("enum");
 				return "";
@@ -24,6 +28,8 @@ class Utils {
 				switch (type.name) {
 					case "String":
 						le = "string";
+					default:
+						trace(type.name);
 				}
 
 				for (i in params) {
@@ -47,6 +53,7 @@ class Utils {
 				return "";
 			case TAbstract(t, params):
 				trace("Abstract");
+				trace(t.get().name);
 				return "";
 			default:
 				trace("AHAHAHAHHAh");
@@ -54,6 +61,7 @@ class Utils {
 		}
 	}
 
+	// TODO: make this one use fullIdent
 	public static function convertDocToLuau(doc:String, tabulation:Int = 0, tabulationIn:Int = 1) {
 		var ret = "";
 		if (doc.contains("\n") || doc.contains("\r")) {
@@ -78,6 +86,33 @@ class Utils {
 
 		ret += "\n";
 		return ret;
+	}
+
+	public static inline function oneIdent():String {
+		var ident = "";
+		if (Context.definedValue("ident-with").toLowerCase() == "spaces" || !Context.defined("ident-with")) {
+			for (i in 0...(Context.defined("ident-amount") ? Std.parseInt(Context.definedValue("ident-amount")) : 4)) {
+				ident += " ";
+			}
+		} else if (Context.definedValue("ident-with").toLowerCase() == "tabs") {
+			for (i in 0...(Context.defined("ident-amount") ? Std.parseInt(Context.definedValue("ident-amount")) : 1)) {
+				ident += "	";
+			}
+		} else {
+			@:privateAccess
+			compilerRef.err("\033[1;41mReflaxe-Luau error:\033[0m \033[1;31mDefine ident-amount is set to an incorrect value\033[0m");
+		}
+		return ident;
+	}
+
+	public static function fullIdent(identLvl:Int) {
+		var identFull = "";
+
+		for (i in 0...identLvl) {
+			identFull += oneIdent();
+		}
+
+		return identFull;
 	}
 }
 #end
