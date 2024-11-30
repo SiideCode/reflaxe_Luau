@@ -48,7 +48,6 @@ class Compiler extends DirectToStringCompiler {
 		ret += classType.name + " = " + "{}" + "\n\n";
 
 		for (i in varFields) {
-			// TODO: make a function to extract the constant from typedexpr
 			var l = i.field.expr();
 			if (l != null) {
 				trace('TypedExpr: ${l}');
