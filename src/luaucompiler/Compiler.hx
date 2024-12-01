@@ -153,7 +153,7 @@ class Compiler extends DirectToStringCompiler
                     case TString(s):
                         return s;
                     case TBool(b):
-                        return b;
+                        if (b == true) return "true"; else return "false";
                     case TNull:
                         return "nil";
                     case TThis:
