@@ -54,7 +54,6 @@ class Compiler extends DirectToStringCompiler
 
         for (i in varFields)
         {
-            // TODO: make a function to extract the constant from typedexpr (compileClassVarExpr doesn't work)
             var l = i.field.expr();
             if (l != null)
             {
